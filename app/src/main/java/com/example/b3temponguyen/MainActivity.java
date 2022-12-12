@@ -3,8 +3,11 @@ package com.example.b3temponguyen;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.b3temponguyen.databinding.ActivityMainBinding;
 
@@ -15,7 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static IEdfApi edfApi;
     ActivityMainBinding binding;
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         /*setContentView(R.layout.activity_main);*/
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // init views
+        binding.historyBt.setOnClickListener(this);
 
         // Init Retrofit client
         Retrofit retrofitClient = com.example.b3temponguyen.ApiClient.get();
@@ -71,8 +77,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
                 TempoDaysColor tempoDaysColor = response.body();
                 if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
-                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
-                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());
+                    /*Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
+                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());*/
+                    binding.TodayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ());
+                    binding.TomorrowDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ1());
                 } else {
                     Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());
                 }
@@ -83,5 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(LOG_TAG, "call to getTempoDaysColor() failed ");
             }
         });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent();
+        intent.setClass(this, HistoryActivity.class);
+        startActivity(intent);
     }
 }
