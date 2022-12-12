@@ -37,5 +37,4 @@ public class TempoDaysLeft {
     public void setParamNbJBleu(Integer paramNbJBleu) {
         this.paramNbJBleu = paramNbJBleu;
     }
-
 }
