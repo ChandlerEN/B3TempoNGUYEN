@@ -11,11 +11,23 @@ public interface IEdfApi {
     // https://particulier.edf.fr/services/rest/referentiel/getNbTempoDays?TypeAlerte=TEMPO
 
     @GET("services/rest/referentiel/getNbTempoDays")
-    Call<TempoDaysLeft> getTempoDaysLeft(@Query("TypeAlerte") String alertType);
+    Call<TempoDaysLeft> getTempoDaysLeft(
+            @Query("TypeAlerte") String alertType
+    );
+
+    // https://particulier.edf.fr/services/rest/referentiel/searchTempoStore?dateRelevant=2022-11-21&TypeAlerte=TEMPO
 
     @GET("services/rest/referentiel/searchTempoStore")
     Call<TempoDaysColor> getTempoDaysColor(
             @Query("dateRelevant") String dateBegin,
             @Query("TypeAlerte") String alertType
+    );
+
+    // https://particulier.edf.fr/services/rest/referentiel/historicTEMPOStore?dateBegin=2020&dateEnd=2021
+
+    @GET("services/rest/referentiel/historicTEMPOStore")
+    Call<TempoHistory> getTempoHistory(
+            @Query("dateBegin") String dateBegin,
+            @Query("dateEnd") String dateEnd
     );
 }

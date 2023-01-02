@@ -20,7 +20,7 @@ public class DayColorView extends View {
     private static final float CIRCLE_SCALE = 0.9f; // circle will occupy 90% of room's view
     // Custom attributes data model
     private String captionText;
-    private int captionTextColor = Color.BLACK;
+    private int captionColor = Color.BLACK;
     private float captionTextSize = 0;
     private int dayCircleColor = Color.GRAY;
 
@@ -55,10 +55,10 @@ public class DayColorView extends View {
                 attrs, R.styleable.DayColorView, defStyle, 0);
         try {
             captionText = a.getString(R.styleable.DayColorView_captionText);
-            if (captionText == null){
+            if (captionText == null) {
                 captionText = context.getString(R.string.not_set);
             }
-            captionTextColor = a.getColor(R.styleable.DayColorView_captionTextColor, captionTextColor);
+            captionColor = a.getColor(R.styleable.DayColorView_captionTextColor, captionColor);
             captionTextSize = a.getDimension(R.styleable.DayColorView_captionTextSize, getResources().getDimension(R.dimen.tempo_color_text_size));
             dayCircleColor = a.getColor(R.styleable.DayColorView_dayCircleColor, ContextCompat.getColor(context, R.color.tempo_undecided_day_bg));
         } finally {
@@ -79,7 +79,7 @@ public class DayColorView extends View {
         textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextAlign(Paint.Align.LEFT);
         textPaint.setTextSize(captionTextSize);
-        textPaint.setColor(captionTextColor);
+        textPaint.setColor(captionColor);
 
         // compute dimensions to be used for drawing text
         mTextWidth = textPaint.measureText(captionText);

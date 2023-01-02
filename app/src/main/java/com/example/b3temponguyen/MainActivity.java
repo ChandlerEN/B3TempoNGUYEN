@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Call to getTempoDaysColor
         Call<TempoDaysColor> call2;
-        call2 = edfApi.getTempoDaysColor("2022-12-05",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
+        call2 = edfApi.getTempoDaysColor("2022-12-12",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
         call2.enqueue(new Callback<TempoDaysColor>() {
             @Override
