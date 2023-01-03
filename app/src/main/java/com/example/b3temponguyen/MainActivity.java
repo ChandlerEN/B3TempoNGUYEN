@@ -2,9 +2,14 @@ package com.example.b3temponguyen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static IEdfApi edfApi;
     ActivityMainBinding binding;
 
+    private static  String CHANNEL_ID = "notifchannelID";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // init views
         binding.historyBt.setOnClickListener(this);
+        
+        // Create notification channel
+        createNotificationChannel();
 
         // Init Retrofit client
         Retrofit retrofitClient = com.example.b3temponguyen.ApiClient.get();
@@ -77,10 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
                 TempoDaysColor tempoDaysColor = response.body();
                 if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
-                    /*Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
-                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());*/
+                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
+                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());
                     binding.TodayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ());
                     binding.TomorrowDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ1());
+                    checkColor4Notif(tempoDaysColor.getCouleurJourJ1());
                 } else {
                     Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());
                 }
@@ -92,6 +103,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+    }
+    // Create notification channel
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void checkColor4Notif(TempoColor nextdaycolor) {
+        if(nextdaycolor == TempoColor.RED || nextdaycolor == TempoColor.WHITE) {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(getString(R.string.notifTitle))
+                    .setContentText(getString(R.string.notifText) + " " + nextdaycolor)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(Tools.getNextNotifId(), builder.build());
+        }
     }
 
     @Override

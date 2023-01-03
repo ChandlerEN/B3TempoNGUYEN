@@ -5,4 +5,8 @@
     <string name="dcv_today_tx">Aujourd\'hui</string>
     <string name="not_set">Not Set</string>
     <string name="historical">Historique !</string>
+    <string name="channel_name">Alertes Tempo</string>
+    <string name="channel_description">Alertes Tempo pour les jours rouges et blancs</string>
+    <string name="notifTitle">Next day color</string>
+    <string name="notifText">Tommorow day color is</string>
 </resources>
