@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
+
+import com.example.b3temponguyen.databinding.ActivityHistoryBinding;
+import com.example.b3temponguyen.databinding.TempoDateItemBinding;
 
 import java.util.List;
 
@@ -20,7 +24,7 @@ public class TempoDateAdapter extends RecyclerView.Adapter<TempoDateAdapter.Temp
     private Context context;
 
     /**
-     * CTor
+     * Constructor
      */
     public TempoDateAdapter(List<TempoDate> tempoDates, Context context) {
         this.tempoDates = tempoDates;
@@ -30,14 +34,18 @@ public class TempoDateAdapter extends RecyclerView.Adapter<TempoDateAdapter.Temp
     @NonNull
     @Override
     public TempoDateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tempo_date_item, parent,false);
-        return new TempoDateViewHolder(v);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tempo_date_item, parent, false);
+        TempoDateItemBinding binding = TempoDateItemBinding.bind(v);
+        return new TempoDateViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TempoDateViewHolder holder, int position) {
-        holder.dateTv.setText(tempoDates.get(position).getDate());
-        holder.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getResId()));
+        /*holder.dateTv.setText(tempoDates.get(position).getDate());
+        holder.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getResId()));*/
+
+        holder.binding.dateTv.setText(tempoDates.get(position).getDate());
+        holder.binding.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getResId()));
     }
 
     @Override
@@ -46,13 +54,20 @@ public class TempoDateAdapter extends RecyclerView.Adapter<TempoDateAdapter.Temp
     }
 
     public class TempoDateViewHolder extends RecyclerView.ViewHolder {
-        TextView dateTv;
-        FrameLayout colorFl;
+        /*TextView dateTv;
+        FrameLayout colorFl;*/
+        TempoDateItemBinding binding;
 
-        public TempoDateViewHolder(@NonNull View itemView) {
-            super(itemView);
+        public TempoDateViewHolder(@NonNull TempoDateItemBinding binding) {
+            /*super(itemView);
             dateTv = itemView.findViewById(R.id.date_tv);
-            colorFl = itemView.findViewById(R.id.color_fl);
+            colorFl = itemView.findViewById(R.id.color_fl);*/
+
+            super(binding.getRoot());
+            this.binding = binding;
+
+            /*binding = TempoDateItemBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());*/
         }
     }
 }
