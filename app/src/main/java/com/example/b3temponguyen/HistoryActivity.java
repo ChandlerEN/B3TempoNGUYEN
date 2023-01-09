@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.b3temponguyen.databinding.ActivityHistoryBinding;
 
@@ -42,11 +43,12 @@ public class HistoryActivity extends AppCompatActivity {
         binding.tempoHistoryRv.setLayoutManager(new LinearLayoutManager(this)); // LinearLayoutManager qui permet d'arranger les élements sous forme de liste.
         tempoDateAdapter = new TempoDateAdapter(tempoDates, this);
         binding.tempoHistoryRv.setAdapter(tempoDateAdapter);
+        binding.progressBar.setVisibility(View.VISIBLE);
 
         if (edfApi != null)
         {
             // Create call
-            TempoHistory.getTempoHistory(LOG_TAG, edfApi, tempoDates, tempoDateAdapter);
+            TempoHistory.getTempoHistory(LOG_TAG, edfApi, tempoDates, tempoDateAdapter, binding);
             /*Call<TempoHistory> call = edfApi.getTempoHistory("2022", "2023");
 
             call.enqueue(new Callback<TempoHistory>() {

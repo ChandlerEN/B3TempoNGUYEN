@@ -3,9 +3,11 @@ package com.example.b3temponguyen;
 import static com.example.b3temponguyen.MainActivity.edfApi;
 
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.example.b3temponguyen.databinding.ActivityHistoryBinding;
 import com.example.b3temponguyen.databinding.ActivityMainBinding;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -43,7 +45,7 @@ public class TempoHistory {
         this.dates = dates;
     }
 
-    public static void getTempoHistory(String LOG_TAG, IEdfApi edfApi, List<TempoDate> tempoDates, TempoDateAdapter tempoDateAdapter){
+    public static void getTempoHistory(String LOG_TAG, IEdfApi edfApi, List<TempoDate> tempoDates, TempoDateAdapter tempoDateAdapter, ActivityHistoryBinding binding){
         Call<TempoHistory> call = edfApi.getTempoHistory("2022", "2023");
 
         call.enqueue(new Callback<TempoHistory>() {
@@ -56,6 +58,8 @@ public class TempoHistory {
                     Log.d(LOG_TAG, "nb elements = " + tempoDates.size());
                 }
                 tempoDateAdapter.notifyDataSetChanged();
+
+                binding.progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
