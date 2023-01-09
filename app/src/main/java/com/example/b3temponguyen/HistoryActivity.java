@@ -46,7 +46,8 @@ public class HistoryActivity extends AppCompatActivity {
         if (edfApi != null)
         {
             // Create call
-            Call<TempoHistory> call = edfApi.getTempoHistory("2022", "2023");
+            TempoHistory.getTempoHistory(LOG_TAG, edfApi, tempoDates, tempoDateAdapter);
+            /*Call<TempoHistory> call = edfApi.getTempoHistory("2022", "2023");
 
             call.enqueue(new Callback<TempoHistory>() {
                 @Override
@@ -64,7 +65,7 @@ public class HistoryActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Call<TempoHistory> call, @NonNull Throwable t) {
 
                 }
-            });
+            });*/
         }
     }
 }

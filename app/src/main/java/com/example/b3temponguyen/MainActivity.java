@@ -1,5 +1,7 @@
 package com.example.b3temponguyen;
 
+import static com.example.b3temponguyen.Tools.getNowDate;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -7,6 +9,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -25,6 +28,7 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final int ALARM_MANAGER_REQUEST_CORE = 2023;
     public static IEdfApi edfApi;
     ActivityMainBinding binding;
 
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Create notification channel
         createNotificationChannel();
 
+        // init Alarms
+
         // Init Retrofit client
         Retrofit retrofitClient = com.example.b3temponguyen.ApiClient.get();
         if (retrofitClient != null) {
@@ -54,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // Create call to getTempoDaysLeft
-        Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
+        TempoDaysLeft.getTempoDaysLeft(LOG_TAG, edfApi, binding);
+        /*Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
         call.enqueue(new Callback<TempoDaysLeft>() {
             @Override
@@ -76,17 +83,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFailure(@NonNull Call<TempoDaysLeft> call, @NonNull Throwable t) {
                 Log.e(LOG_TAG, "call to getTempoDaysLeft () failed ");
             }
-        });
+        });*/
 
         // Call to getTempoDaysColor
-        Call<TempoDaysColor> call2;
-        call2 = edfApi.getTempoDaysColor("2022-12-12",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
+        TempoDaysColor.getTempoDaysColor(LOG_TAG, edfApi, binding);
+        /*Call<TempoDaysColor> call2 = edfApi.getTempoDaysColor(getNowDate("yyyy-MM-dd"),IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
         call2.enqueue(new Callback<TempoDaysColor>() {
             @Override
             public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
                 TempoDaysColor tempoDaysColor = response.body();
                 if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
+                    Log.d(LOG_TAG,"GetNowDate = " + getNowDate("yyyy.MM.dd"));
                     Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
                     Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());
                     binding.TodayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ());
@@ -101,8 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onFailure(@NonNull Call<TempoDaysColor> call, @NonNull Throwable t) {
                 Log.e(LOG_TAG, "call to getTempoDaysColor() failed ");
             }
-        });
-
+        });*/
     }
     // Create notification channel
     private void createNotificationChannel() {
@@ -136,10 +143,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*private void initAlarmManager() {
+        // create a pending intent
+        Intent intent = new Intent(this, TempoAlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(
+                this,
+                ALARM_MANAGER_REQUEST_CORE,
+                intent,
+                0
+        );
+    }*/
+
     @Override
     public void onClick(View view) {
         Intent intent = new Intent();
         intent.setClass(this, HistoryActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TempoDaysLeft.getTempoDaysLeft(LOG_TAG, edfApi, binding);
+        TempoDaysColor.getTempoDaysColor(LOG_TAG, edfApi, binding);
     }
 }
