@@ -48,26 +48,31 @@ public class HistoryActivity extends AppCompatActivity {
         if (edfApi != null)
         {
             // Create call
-            TempoHistory.getTempoHistory(LOG_TAG, edfApi, tempoDates, tempoDateAdapter, binding);
-            /*Call<TempoHistory> call = edfApi.getTempoHistory("2022", "2023");
-
-            call.enqueue(new Callback<TempoHistory>() {
-                @Override
-                public void onResponse(Call<TempoHistory> call, Response<TempoHistory> response) {
-                    tempoDates.clear();
-                    if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null)
-                    {
-                        tempoDates.addAll(response.body().getTempoDates());
-                        Log.d(LOG_TAG, "nb elements = " + tempoDates.size());
-                    }
-                    tempoDateAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<TempoHistory> call, @NonNull Throwable t) {
-
-                }
-            });*/
+            getTempoHistory(LOG_TAG, edfApi, tempoDates, tempoDateAdapter, binding);
         }
+    }
+
+    public void getTempoHistory(String LOG_TAG, IEdfApi edfApi, List<TempoDate> tempoDates, TempoDateAdapter tempoDateAdapter, ActivityHistoryBinding binding){
+        Call<TempoHistory> call = edfApi.getTempoHistory("2022", "2023");
+
+        call.enqueue(new Callback<TempoHistory>() {
+            @Override
+            public void onResponse(Call<TempoHistory> call, Response<TempoHistory> response) {
+                tempoDates.clear();
+                if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null)
+                {
+                    tempoDates.addAll(response.body().getTempoDates());
+                    Log.d(LOG_TAG, "nb elements = " + tempoDates.size());
+                }
+                tempoDateAdapter.notifyDataSetChanged();
+
+                binding.progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TempoHistory> call, @NonNull Throwable t) {
+                Log.e(LOG_TAG, "call to getTempoHistory() failed ");
+            }
+        });
     }
 }

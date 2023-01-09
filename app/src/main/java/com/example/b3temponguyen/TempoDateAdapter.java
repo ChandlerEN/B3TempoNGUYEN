@@ -4,16 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewbinding.ViewBinding;
 
-import com.example.b3temponguyen.databinding.ActivityHistoryBinding;
 import com.example.b3temponguyen.databinding.TempoDateItemBinding;
 
 import java.util.List;
@@ -45,7 +40,7 @@ public class TempoDateAdapter extends RecyclerView.Adapter<TempoDateAdapter.Temp
         holder.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getResId()));*/
 
         holder.binding.dateTv.setText(tempoDates.get(position).getDate());
-        holder.binding.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getResId()));
+        holder.binding.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getColorResId()));
     }
 
     @Override
