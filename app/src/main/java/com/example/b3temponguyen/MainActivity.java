@@ -64,55 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Create call to getTempoDaysLeft
         getTempoDaysLeft(LOG_TAG, edfApi, binding);
-        /*Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
-
-        call.enqueue(new Callback<TempoDaysLeft>() {
-            @Override
-            public void onResponse(@NonNull Call<TempoDaysLeft> call, @NonNull Response<TempoDaysLeft> response) {
-                TempoDaysLeft tempoDaysLeft = response.body();
-                if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysLeft != null) {
-                    Log.d(LOG_TAG, "nb red days = " + tempoDaysLeft.getParamNbJRouge());
-                    Log.d(LOG_TAG, "nb white days = " + tempoDaysLeft.getParamNbJBlanc());
-                    Log.d(LOG_TAG, "nb blue days = " + tempoDaysLeft.getParamNbJBleu());
-                    binding.blueDaysTv.setText(String.valueOf(tempoDaysLeft.getParamNbJBleu()));
-                    binding.whiteDaysTv.setText(String.valueOf(tempoDaysLeft.getParamNbJBlanc()));
-                    binding.redDaysTv.setText(String.valueOf(tempoDaysLeft.getParamNbJRouge()));
-                } else {
-                    Log.w(LOG_TAG, "call to getTempoDaysLeft () failed with error code " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<TempoDaysLeft> call, @NonNull Throwable t) {
-                Log.e(LOG_TAG, "call to getTempoDaysLeft () failed ");
-            }
-        });*/
 
         // Call to getTempoDaysColor
         getTempoDaysColor(LOG_TAG, edfApi, binding);
-        /*Call<TempoDaysColor> call2 = edfApi.getTempoDaysColor(getNowDate("yyyy-MM-dd"),IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
-
-        call2.enqueue(new Callback<TempoDaysColor>() {
-            @Override
-            public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
-                TempoDaysColor tempoDaysColor = response.body();
-                if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
-                    Log.d(LOG_TAG,"GetNowDate = " + getNowDate("yyyy.MM.dd"));
-                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
-                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());
-                    binding.TodayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ());
-                    binding.TomorrowDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ1());
-                    checkColor4Notif(tempoDaysColor.getCouleurJourJ1());
-                } else {
-                    Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<TempoDaysColor> call, @NonNull Throwable t) {
-                Log.e(LOG_TAG, "call to getTempoDaysColor() failed ");
-            }
-        });*/
     }
     public void getTempoDaysLeft(String LOG_TAG, IEdfApi edfApi, ActivityMainBinding binding){
         Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
@@ -149,10 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TempoDaysColor tempoDaysColor = response.body();
                 if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
                     Log.d(LOG_TAG,"GetNowDate = " + getNowDate("yyyy-MM-dd"));
-                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
-                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());
-                    binding.TodayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ());
-                    binding.TomorrowDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ1());
+                    Log.d(LOG_TAG,"Today color = "+getString(tempoDaysColor.getCouleurJourJ().getStringResId()));
+                    Log.d(LOG_TAG,"Tomorrow color = "+getString(tempoDaysColor.getCouleurJourJ1().getStringResId()));
+                    binding.TodayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ(), getString(tempoDaysColor.getCouleurJourJ().getStringResId()));
+                    binding.TomorrowDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ1(), getString(tempoDaysColor.getCouleurJourJ1().getStringResId()));
                     checkColor4Notif(tempoDaysColor.getCouleurJourJ1());
                 } else {
                     Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());

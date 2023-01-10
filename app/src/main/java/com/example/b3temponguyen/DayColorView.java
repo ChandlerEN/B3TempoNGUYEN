@@ -118,10 +118,11 @@ public class DayColorView extends View {
                 textPaint);
     }
 
-    public void setDayCircleColor(TempoColor color) {
+    public void setDayCircleColor(TempoColor color, String colorString) {
         dayCircleColor = ContextCompat.getColor(context, color.getColorResId());
         setCirclePaint();
         invalidate();
-    }
 
+        captionText += colorString;
+    }
 }
