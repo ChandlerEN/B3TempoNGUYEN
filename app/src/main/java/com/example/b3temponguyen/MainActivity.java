@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // init views
         binding.historyBt.setOnClickListener(this);
-        
+        binding.historyBt2.setOnClickListener(this);
+
         // Create notification channel
         createNotificationChannel();
 
@@ -63,12 +64,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // Create call to getTempoDaysLeft
-        getTempoDaysLeft(LOG_TAG, edfApi, binding);
+        getTempoDaysLeft();
 
         // Call to getTempoDaysColor
-        getTempoDaysColor(LOG_TAG, edfApi, binding);
+        getTempoDaysColor();
     }
-    public void getTempoDaysLeft(String LOG_TAG, IEdfApi edfApi, ActivityMainBinding binding){
+    public void getTempoDaysLeft(){
         Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
         call.enqueue(new Callback<TempoDaysLeft>() {
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    public void getTempoDaysColor(String LOG_TAG, IEdfApi edfApi, ActivityMainBinding binding){
+    public void getTempoDaysColor(){
         Call<TempoDaysColor> call2 = edfApi.getTempoDaysColor(getNowDate("yyyy-MM-dd"),IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
         call2.enqueue(new Callback<TempoDaysColor>() {
@@ -178,14 +179,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, HistoryActivity.class);
+
+        switch (view.getId()){
+            case R.id.history_bt:
+                intent.setClass(this, HistoryActivity.class);
+                break;
+            case R.id.history_bt2:
+                intent.setClass(this, HistoryActivityV2.class);
+                break;
+        }
         startActivity(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getTempoDaysLeft(LOG_TAG, edfApi, binding);
-        getTempoDaysColor(LOG_TAG, edfApi, binding);
+        getTempoDaysLeft();
+        getTempoDaysColor();
     }
 }

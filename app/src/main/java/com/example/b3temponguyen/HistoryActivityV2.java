@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.b3temponguyen.databinding.ActivityHistoryBinding;
+import com.example.b3temponguyen.databinding.ActivityHistoryV2Binding;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -20,11 +20,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HistoryActivity extends AppCompatActivity {
-    private static final String LOG_TAG = HistoryActivity.class.getSimpleName();
+public class HistoryActivityV2 extends AppCompatActivity{
+    private static final String LOG_TAG = HistoryActivityV2.class.getSimpleName();
 
     // Init views
-    ActivityHistoryBinding binding;
+    ActivityHistoryV2Binding binding;
 
     // Data model
     List<TempoDate> tempoDates = new ArrayList<>();
@@ -35,20 +35,19 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHistoryBinding.inflate(getLayoutInflater());
+        binding = ActivityHistoryV2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Init recycler view
-        binding.tempoHistoryRv.setHasFixedSize(true); // On dit au recycler view que tous les éléments ont la même taille. Le fait de le mettre à true veut dire que : les changements ne pourront pas affecter les changements de la recycler view.
+        /*binding.tempoHistoryRv.setHasFixedSize(true); // On dit au recycler view que tous les éléments ont la même taille. Le fait de le mettre à true veut dire que : les changements ne pourront pas affecter les changements de la recycler view.
         binding.tempoHistoryRv.setLayoutManager(new LinearLayoutManager(this)); // LinearLayoutManager qui permet d'arranger les élements sous forme de liste.
         tempoDateAdapter = new TempoDateAdapter(tempoDates, this);
         binding.tempoHistoryRv.setAdapter(tempoDateAdapter);
-        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);*/
 
-        if (edfApi != null)
-        {
+        if (edfApi != null) {
             // Create call
-            getTempoHistory();
+            /*getTempoHistory();*/
         }
     }
 
@@ -66,7 +65,7 @@ public class HistoryActivity extends AppCompatActivity {
                 }
                 tempoDateAdapter.notifyDataSetChanged();
 
-                binding.progressBar.setVisibility(View.INVISIBLE);
+                /*binding.progressBar.setVisibility(View.INVISIBLE);*/
             }
 
             @Override
