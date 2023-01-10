@@ -31,6 +31,8 @@ public class DayColorView extends View {
     private float mTextWidth;
     private float mTextHeight;
 
+    private String colorString;
+
     public DayColorView(Context context) {
         super(context);
         init(context, null, 0);
@@ -116,6 +118,13 @@ public class DayColorView extends View {
                 paddingLeft + (contentWidth - mTextWidth) / 2,
                 paddingTop + (contentHeight + mTextHeight) / 2,
                 textPaint);
+
+        /*captionText = this.colorString;*/
+
+        canvas.drawText(captionText,
+                paddingLeft + (contentWidth - mTextWidth) / 2,
+                paddingTop + (contentHeight + mTextHeight) / 2 + 100,
+                textPaint);
     }
 
     public void setDayCircleColor(TempoColor color, String colorString) {
@@ -123,6 +132,6 @@ public class DayColorView extends View {
         setCirclePaint();
         invalidate();
 
-        captionText += colorString;
+        this.colorString = colorString;
     }
 }
