@@ -119,8 +119,6 @@ public class DayColorView extends View {
                 paddingTop + (contentHeight + mTextHeight) / 2,
                 textPaint);
 
-        /*captionText = this.colorString;*/
-
         canvas.drawText(captionText,
                 paddingLeft + (contentWidth - mTextWidth) / 2,
                 paddingTop + (contentHeight + mTextHeight) / 2 + 100,
