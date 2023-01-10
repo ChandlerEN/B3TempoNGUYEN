@@ -23,14 +23,13 @@ import retrofit2.Response;
 public class HistoryActivityV2 extends AppCompatActivity{
     private static final String LOG_TAG = HistoryActivityV2.class.getSimpleName();
 
-    // Init views
     ActivityHistoryV2Binding binding;
 
     // Data model
     List<TempoDate> tempoDates = new ArrayList<>();
 
     // RV adapter
-    TempoDateAdapter tempoDateAdapter;
+    TempoDateAdapter2 tempoDateAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +38,16 @@ public class HistoryActivityV2 extends AppCompatActivity{
         setContentView(binding.getRoot());
 
         // Init recycler view
-        /*binding.tempoHistoryRv.setHasFixedSize(true); // On dit au recycler view que tous les éléments ont la même taille. Le fait de le mettre à true veut dire que : les changements ne pourront pas affecter les changements de la recycler view.
+        binding.tempoHistoryRv.setHasFixedSize(true); // On dit au recycler view que tous les éléments ont la même taille. Le fait de le mettre à true veut dire que : les changements ne pourront pas affecter les changements de la recycler view.
         binding.tempoHistoryRv.setLayoutManager(new LinearLayoutManager(this)); // LinearLayoutManager qui permet d'arranger les élements sous forme de liste.
-        tempoDateAdapter = new TempoDateAdapter(tempoDates, this);
+        tempoDateAdapter = new TempoDateAdapter2(tempoDates, this);
         binding.tempoHistoryRv.setAdapter(tempoDateAdapter);
-        binding.progressBar.setVisibility(View.VISIBLE);*/
+        binding.progressBar.setVisibility(View.VISIBLE);
 
-        if (edfApi != null) {
+        if (edfApi != null)
+        {
             // Create call
-            /*getTempoHistory();*/
+            getTempoHistory();
         }
     }
 
@@ -65,7 +65,7 @@ public class HistoryActivityV2 extends AppCompatActivity{
                 }
                 tempoDateAdapter.notifyDataSetChanged();
 
-                /*binding.progressBar.setVisibility(View.INVISIBLE);*/
+                binding.progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
